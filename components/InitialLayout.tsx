@@ -13,12 +13,10 @@ export default function InitialLayout() {
 
     const isAuthRoute = segments[0] === "(auth)";
 
-    {
-      if (!isSignedIn && !isAuthRoute) {
-        router.replace("/(auth)/login");
-      } else if (isSignedIn && isAuthRoute) {
-        router.replace("/(tabs)");
-      }
+    if (!isSignedIn && !isAuthRoute) {
+      router.replace("/(auth)/login");
+    } else if (isSignedIn && isAuthRoute) {
+      router.replace("/(tabs)");
     }
   }, [isLoaded, isSignedIn, segments]);
 

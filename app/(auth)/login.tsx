@@ -16,7 +16,6 @@ export default function Login() {
       const { createdSessionId, setActive } = await startSSOFlow({
         strategy: "oauth_google",
       });
-
       if (createdSessionId && setActive) {
         await setActive({ session: createdSessionId });
         router.replace("/(tabs)");
