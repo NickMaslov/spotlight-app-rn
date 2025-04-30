@@ -9,6 +9,7 @@ import { useQuery } from "convex/react";
 import { api } from "@/convex/_generated/api";
 import Loader from "@/components/Loader";
 import Post from "@/components/Post";
+import { FlatList } from "react-native-gesture-handler";
 
 export default function Index() {
   const { signOut } = useAuth();
@@ -27,29 +28,32 @@ export default function Index() {
           <Ionicons name="log-out-outline" size={24} color={COLORS.white} />
         </TouchableOpacity>
       </View>
-      <ScrollView
+
+      <FlatList
+        data={posts}
+        renderItem={({ item }) => <Post post={item} />}
+        keyExtractor={(item) => item._id}
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{ paddingBottom: 60 }}
-      >
-        {/* Stories */}
-        <ScrollView
-          showsVerticalScrollIndicator={false}
-          horizontal
-          style={styles.storiesContainer}
-        >
-          {STORIES.map((story) => (
-            <Story key={story.id} story={story} />
-          ))}
-        </ScrollView>
-
-        {/* Posts */}
-        {posts.map((post) => (
-          <Post key={post._id} post={post} />
-        ))}
-      </ScrollView>
+        ListHeaderComponent={<StoriesSection />}
+      />
     </View>
   );
 }
+
+const StoriesSection = () => {
+  return (
+    <ScrollView
+      showsVerticalScrollIndicator={false}
+      horizontal
+      style={styles.storiesContainer}
+    >
+      {STORIES.map((story) => (
+        <Story key={story.id} story={story} />
+      ))}
+    </ScrollView>
+  );
+};
 
 const NoPostsFound = () => {
   return (
